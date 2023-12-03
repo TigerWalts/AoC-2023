@@ -29,10 +29,9 @@ def product_of_min_dice(game_results: str):
     return reduce(
         mul,
         reduce(
-            lambda a, x: {k: max(v, x[k]) for k, v in a.items()},
+            lambda a, x: a | x,
             (
-                Counter(no_dice)
-                + Counter(
+                Counter(
                     {
                         colour: int(count)
                         for count, _, colour in (
