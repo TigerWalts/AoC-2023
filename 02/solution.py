@@ -1,7 +1,7 @@
 from collections import Counter
 from functools import reduce
 from io import TextIOWrapper
-from operator import mul
+from operator import mul, or_
 from os import path
 from typing import Dict, Tuple
 
@@ -24,12 +24,11 @@ def is_legal(game_result: str, dice_counts: Dict[str, int]) -> bool:
     )
 
 
-def product_of_min_dice(game_results: str):
-    no_dice = {colour: 0 for colour in ("red", "green", "blue")}
+def product_of_min_dice(game_results: str) -> int:
     return reduce(
         mul,
         reduce(
-            lambda a, x: a | x,
+            or_,
             (
                 Counter(
                     {
@@ -41,8 +40,7 @@ def product_of_min_dice(game_results: str):
                     }
                 )
                 for game_result in game_results.split("; ")
-            ),
-            Counter(no_dice),
+            )
         ).values(),
     )
 
