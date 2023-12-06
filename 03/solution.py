@@ -1,4 +1,5 @@
 from collections import deque
+from functools import reduce
 from io import TextIOWrapper
 from itertools import chain, islice
 from os import path
@@ -85,6 +86,21 @@ def part_1(input_file: TextIOWrapper) -> int:
     )
 
 
+def part_1b(input_file: TextIOWrapper) -> int:
+    input_file.seek(0)
+    stride = len(input_file.readline().strip())
+    input_file.seek(0)
+    return reduce(
+        lambda it, f: f(it),
+        (
+            iter_line(input_file),
+            lambda it: conv_3_3(it, "." * stride, part_1_conv),
+            lambda it: (sum(nums_from_line_mask(x)) for x in it),
+            sum
+        )
+    )
+
+
 def part_2(input_file: TextIOWrapper) -> int:
     input_file.seek(0)
     return sum(1 for _ in iter_line(input_file))
@@ -94,7 +110,7 @@ def main():
     with open(INPUT_EXAMPLE) as input_example_fd, open(INPUT) as input_fd:
         test_result = part_1(input_example_fd)
         assert test_result == 4361, f"Test Failed! got {test_result}"
-        print(part_1(input_fd))
+        print(part_1b(input_fd))
 
         # test_result = part_2(input_example_fd)
         # assert test_result == 0, f"Test Failed! got {test_result}"
