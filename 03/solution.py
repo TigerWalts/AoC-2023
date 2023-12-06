@@ -27,7 +27,7 @@ def conv_3_3[T, U](
     seq: Sequence[Sequence[T]],
     fill: Sequence[T],
     func: Callable[[Tuple[Tuple[T, T, T], Tuple[T, T, T], Tuple[T, T, T]]], U],
-) -> Iterator[U]:
+) -> Iterator[Iterator[U]]:
     fill_ = fill[0:1]
     for first, second, third in sliding_window(chain([fill], seq, [fill]), 3):
         yield (
