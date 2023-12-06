@@ -24,8 +24,8 @@ def sliding_window(iterable, n):
 
 
 def conv_3_3[T, U](
-    seq: Sequence[T],
-    fill: T,
+    seq: Sequence[Sequence[T]],
+    fill: Sequence[T],
     func: Callable[[Tuple[Tuple[T, T, T], Tuple[T, T, T], Tuple[T, T, T]]], U],
 ) -> Iterator[U]:
     fill_ = fill[0:1]
@@ -40,28 +40,10 @@ def conv_3_3[T, U](
         )
 
 
-def sum_line_nums(line, num_row, comb_row) -> int:
-    acc = 0
-    num = ""
-    in_sym = False
-    for char, n, c in zip(line, num_row, comb_row):
-        if not n and num:
-            if in_sym:
-                acc += int(num)
-            num = ""
-            in_sym = False
-        if n:
-            num += char
-        if c:
-            in_sym = True
-    if num and in_sym:
-        acc += int(num)
-    return acc
+Lens = Tuple[Tuple[str, str, str], Tuple[str, str, str], Tuple[str, str, str]]
 
 
-def part_1_conv(
-    lens: Tuple[Tuple[str, str, str], Tuple[str, str, str], Tuple[str, str, str]]
-) -> Tuple[str, int]:
+def part_1_conv(lens: Lens) -> Tuple[str, int]:
     """Takes a 3x3 tuple of characters and returns a tuple of the center character
     with a mask of:
         0   -   Not a digit
